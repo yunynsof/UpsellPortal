@@ -1,0 +1,22 @@
+a{
+    color: #fff;
+}
+#labelCentral{
+    display: flex; 
+    margin: auto;
+}
+
+img{
+    display:block;
+    margin:auto;
+    max-width:100%;
+    width:30%;
+    height:30%;
+}
+
+@media (max-width: 576px) {
+    ion-content {
+        font-size: 2rem !important;
+    }
+}
+

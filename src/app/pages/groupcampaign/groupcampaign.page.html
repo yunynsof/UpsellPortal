@@ -1,0 +1,116 @@
+<ion-content class="ionContent">
+  <br>
+  <br>
+  <form [formGroup]="validations_form" #form="ngForm" (ngSubmit)="groupCampaignForm(form)">
+    <ion-grid class="line-input">
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-lg="8">
+          <ion-card>
+            <ion-toolbar class="ionToolbar">
+              <ion-card-header>
+                <ion-card-title>Creación de grupo</ion-card-title>
+              </ion-card-header>
+              <div class="ion-padding">
+                <ion-row>
+                  <ion-col>
+                    <ion-item>
+                      <ion-label>Nombre grupo</ion-label>
+                      <ion-input id="rounded" placeholder="Ingrese nombre grupo" [(ngModel)]="categoryArray.nameGroup"
+                        (ionChange)="groupCreateFormValidator.nameGroup.empty='';" formControlName="nameGroup">
+                      </ion-input>
+                    </ion-item>
+                    <div class="validation-errors">
+                      <ng-container *ngFor="let validation of validation_messages.nameGroup">
+                        <div class="error-message"
+                          *ngIf="groupCreateFormValidator.nameGroup.empty||validations_form.get('nameGroup').hasError(validation.type) && (validations_form.get('nameGroup').dirty || validations_form.get('nameGroup').touched)">
+                          <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
+                        </div>
+                      </ng-container>
+                    </div>
+                  </ion-col>
+                  <ion-col>
+                    <ion-item>
+                      <ion-label>Categoría</ion-label>
+                      <ion-select [interfaceOptions]="customActionSheetOptions" mode="ios"
+                        [(ngModel)]="categoryArray.idCategory" formControlName="idCategory"
+                        (ionChange)="getSubCategories();" (click)="getCategories()" placeholder="Seleccione"
+                        cancelText="Cancelar" okText="Aceptar">
+                        <ion-select-option *ngFor="let category of itemsCategories" value={{category.id}}>
+                          {{category.name}}
+                        </ion-select-option>
+                      </ion-select>
+                    </ion-item>
+                    <div class="validation-errors">
+                      <ng-container *ngFor="let validation of validation_messages.idCategory">
+                        <div class="error-message"
+                          *ngIf="groupCreateFormValidator.idCategory.empty||validations_form.get('idCategory').hasError(validation.type) && (validations_form.get('idCategory').dirty || validations_form.get('idCategory').touched)">
+                          <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
+                        </div>
+                      </ng-container>
+                    </div>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col>
+                    <ion-item>
+                      <ion-label>Sub categoría</ion-label>
+                      <ion-select [interfaceOptions]="customPopoverOptions" mode="ios"
+                        [(ngModel)]="categoryArray.subCategory"
+                        (ionChange)="groupCreateFormValidator.subCategory.empty='';" formControlName="subCategory"
+                        placeholder="Seleccione" cancelText="Cancelar" okText="Aceptar">
+                        <ion-select-option *ngFor="let subCategory of subCategories" value="{{subCategory.id}}">
+                          {{subCategory.name}}
+                        </ion-select-option>
+                      </ion-select>
+                    </ion-item>
+                    <div class="validation-errors">
+                      <ng-container *ngFor="let validation of validation_messages.subCategory">
+                        <div class="error-message"
+                          *ngIf="groupCreateFormValidator.subCategory.empty||validations_form.get('subCategory').hasError(validation.type) && (validations_form.get('subCategory').dirty || validations_form.get('subCategory').touched)">
+                          <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
+                        </div>
+                      </ng-container>
+                    </div>
+                  </ion-col>
+                  <ion-col>
+                    <ion-item>
+                      <ion-label>Descripción</ion-label>
+                      <ion-input [(ngModel)]="categoryArray.description" placeholder="Ingrese descripcion grupo"
+                        (ionChange)="groupCreateFormValidator.description.empty='';" formControlName="description">
+                      </ion-input>
+                    </ion-item>
+                    <div class="validation-errors">
+                      <ng-container *ngFor="let validation of validation_messages.description">
+                        <div class="error-message"
+                          *ngIf="groupCreateFormValidator.description.empty||validations_form.get('description').hasError(validation.type) && (validations_form.get('description').dirty || validations_form.get('description').touched)">
+                          <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
+                        </div>
+                      </ng-container>
+                    </div>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col>
+                    <ion-fab-button class="buttonAdd" title="Agregar categorias" (click)="moveToFirst()">
+                      <ion-icon name="add"></ion-icon>
+                    </ion-fab-button>
+                  </ion-col>
+                </ion-row>
+                <ion-row class="ion-justify-content-center">
+                  <section>
+                    <ion-button type="reset" (click)="cleanForm()" size="small" class="buttonNext"
+                      title="Limpiar campos">
+                      Limpiar</ion-button>
+                    <ion-col></ion-col>
+                    <ion-button type="submit" size="small" class="buttonSave" title="Guardar grupo">Guardar
+                    </ion-button>
+                  </section>
+                </ion-row>      
+              </div>
+            </ion-toolbar>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

@@ -1,0 +1,94 @@
+<ion-content class="ionContent">
+  <br>
+  <br>
+  <ion-grid>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-lg="8">
+        <ion-card class="line-input">
+          <ion-toolbar class="ionToolbar">
+            <ion-card-header>
+              <ion-card-title>Administración de Campaña</ion-card-title>
+            </ion-card-header>
+            <div class="ion-padding">
+              <ion-row>
+                <div>
+                  Mostrar columnas: <a class="toggle-vis" data-column="0">Nombre</a> - <a class="toggle-vis"
+                    data-column="1">Grupo</a> - <a class="toggle-vis" data-column="2">Exacaster</a> - <a
+                    class="toggle-vis" data-column="3">Fecha Inicio</a> - <a class="toggle-vis" data-column="4">Fecha
+                    Final</a> - <a class="toggle-vis" data-column="5">Tipo base</a> - <a class="toggle-vis"
+                    data-column="6">Estado</a> - <a class="toggle-vis" data-column="7">Fecha Creacion</a>
+                  - <a class="toggle-vis" data-column="8">Fecha Actualizacion</a> - <a class="toggle-vis"
+                    data-column="9">Ultimo Usuario</a>
+                </div>
+              </ion-row>
+            </div>
+            <ion-row>
+              <ion-col>
+                <table id="tableAdmin" class="display nowrap" style="width:100%">
+                  <thead>
+                    <tr>
+                      <th>Nombre</th>
+                      <th>Grupo</th>
+                      <th>Exacaster</th>
+                      <th>Fecha Inicio</th>
+                      <th>Fecha Final</th>
+                      <th>Tipo de base</th>
+                      <th>Estado</th>
+                      <th>Fecha Creacion</th>
+                      <th>Fecha Actualizacion</th>
+                      <th>Ultimo Usuario</th>
+                      <th>Opciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let campaign of dataTable">
+                      <td>{{campaign.name}}</td>
+                      <td>{{campaign.groupId}}</td>
+                      <td>{{campaign.exTemplateId}}</td>
+                      <td>{{campaign.start}}</td>
+                      <td>{{campaign.end}}</td>
+                      <td>{{campaign.databaseType}}</td>
+                      <td>{{campaign.scheduleStatus}}</td>
+                      <td>{{campaign.creationDate}}</td>
+                      <td>{{campaign.updateDate}}</td>
+                      <td>{{campaign.lastUpdateUser}}</td>
+                      <td>
+                        <ion-icon size="small" mat-icon-button [matMenuTriggerFor]="menu" name="more"></ion-icon>
+                        <mat-menu #menu="matMenu">
+                          <button mat-menu-item (click)="mofifiedCampaign(campaign)" size="small"
+                            title="Modificar campaña">
+                            <mat-icon>build</mat-icon>
+                            <span>Modificar</span>
+                          </button>
+                          <button mat-menu-item (click)="startCampaign(campaign)" size="small"
+                            title="Iniciar / Pausar campaña">
+                            <mat-icon *ngIf="campaign.scheduleStatus == 'PAUSADO'">play_circle_filled</mat-icon>
+                            <mat-icon *ngIf="campaign.scheduleStatus == 'DESHABILITADO'">play_circle_filled</mat-icon>
+                            <mat-icon *ngIf="campaign.scheduleStatus == 'INICIADO'">pause_circle_filled</mat-icon>
+                            <span *ngIf="campaign.scheduleStatus == 'PAUSADO'">Iniciar</span>
+                            <span *ngIf="campaign.scheduleStatus == 'DESHABILITADO'">Iniciar</span>
+                            <span *ngIf="campaign.scheduleStatus == 'INICIADO'">Pausar</span>
+                          </button>
+                          <button mat-menu-item (click)="disableCampaign(campaign)" size="small"
+                            title="Deshabilitar campaña">
+                            <mat-icon>block</mat-icon>
+                            <span>Deshabilitar</span>
+                          </button>
+                          <button mat-menu-item (click)="deleteCampaign(campaign)" size="small"
+                            title="Eliminar campaña">
+                            <mat-icon>delete_sweep</mat-icon>
+                            <span>Eliminar</span>
+                          </button>
+                        </mat-menu>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </ion-col>
+            </ion-row>
+          </ion-toolbar>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

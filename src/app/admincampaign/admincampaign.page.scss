@@ -1,0 +1,41 @@
+tfoot input {
+    width: 100%;
+    padding: 3px;
+    box-sizing: border-box;
+}
+#subGrid {
+    color: initial;
+    width: 100%;
+    padding: 10px;
+    margin: 6px 0 12px 0;
+    border: 1px solid #ccc;
+    border-radius: 0;
+    font-family: arial, verdana, sans-serif;
+    font-size: 14px;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+}
+#toolbar {
+    border-radius: 20px;
+}
+#labelCentral{
+    display: flex; 
+    margin: auto;
+}
+div.dataTables_wrapper {
+    width: 800px;
+    margin: 0 auto;
+}
+thead input {
+    width: 100%;
+}
+a {
+    cursor: pointer;
+    color: #3174c7;
+    text-decoration: underline  ;
+}
+span{
+    font-family: 'My Custom Regular';
+    font-size: 0.75rem!important;
+}
+

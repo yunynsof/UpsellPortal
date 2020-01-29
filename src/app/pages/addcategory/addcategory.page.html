@@ -1,0 +1,138 @@
+<ion-content class="ionContent">
+  <ion-grid>
+    <ion-card>
+      <ion-toolbar class="ionToolbar">
+        <form [formGroup]="validationsCategory_form" #formCat="ngForm" (ngSubmit)="saveCategory(formCat)">
+          <ion-row>
+            <ion-toolbar>
+              <ion-button class="ion-float-right" color="light" (click)="closeModal()" title="Cerrar modal">X
+              </ion-button>
+              <ion-title>Agregar de categoría</ion-title>
+            </ion-toolbar>
+          </ion-row>
+          <br>
+          <ion-row>
+            <ion-col class="center-input">
+              <ion-item>
+                <ion-label>Categoría</ion-label>
+                <ion-input placeholder="Ingrese nombre categoria" [(ngModel)]="addCategories.category"
+                  (ionChange)="addCategFormValidator.category.empty='';" formControlName="category"></ion-input>
+              </ion-item>
+              <div class="validation-errors">
+                <ng-container *ngFor="let validation of validation_messages.category">
+                  <div class="error-message"
+                    *ngIf="addCategFormValidator.category.empty||validationsCategory_form.get('category').hasError(validation.type) && (validationsCategory_form.get('category').dirty || validationsCategory_form.get('category').touched)">
+                    <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
+                  </div>
+                </ng-container>
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col class="center-input">
+              <ion-item>
+                <ion-label>Descripción</ion-label>
+                <ion-input placeholder="Ingrese descripción categoria" [(ngModel)]="addCategories.desCategory"
+                  (ionChange)="addCategFormValidator.desCategory.empty='';" formControlName="desCategory">
+                </ion-input>
+              </ion-item>
+              <div class="validation-errors">
+                <ng-container *ngFor="let validation of validation_messages.desCategory">
+                  <div class="error-message"
+                    *ngIf="addCategFormValidator.desCategory.empty||validationsCategory_form.get('desCategory').hasError(validation.type) && (validationsCategory_form.get('desCategory').dirty || validationsCategory_form.get('desCategory').touched)">
+                    <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
+                  </div>
+                </ng-container>
+              </div>
+            </ion-col>
+          </ion-row>
+          <br>
+          <ion-row class="ion-justify-content-center">
+            <section>
+              <ion-button type="reset" size="small" (click)="cleanCategForm()" class="buttonNext"
+                title="Limpiar campos">Limpiar</ion-button>
+              <ion-button type="submit" size="small" class="buttonSave" title="Guardar categoria">Agregar
+              </ion-button>
+            </section>
+          </ion-row>
+        </form>
+        <br>
+        <form [formGroup]="validationsSubcategory_form" #formSubCat="ngForm" (ngSubmit)="saveSubCategory(formSubCat)">
+          <ion-row>
+            <ion-toolbar>
+              <ion-title>Agregar de subcategoría</ion-title>
+            </ion-toolbar>
+          </ion-row>
+          <br>
+          <ion-row>
+            <ion-col class="center-input">
+              <ion-item>
+                <ion-label>Categoría</ion-label>
+                <ion-select [interfaceOptions]="customActionSheetOptions" mode="ios"
+                  [(ngModel)]="addCategories.idCategory" formControlName="idCategory" (click)="getCategories()"
+                  placeholder="Seleccione" cancelText="Cancelar" okText="Aceptar"
+                  (ionChange)="addSubCategFormValidator.idCategory.empty='';">
+                  <ion-select-option *ngFor="let category of itemsCategories" value={{category.id}}>{{category.name}}
+                  </ion-select-option>
+                </ion-select>
+              </ion-item>
+              <div class="validation-errors">
+                <ng-container *ngFor="let validation of validation_messages.idCategory">
+                  <div class="error-message"
+                    *ngIf="addSubCategFormValidator.idCategory.empty||validationsSubcategory_form.get('idCategory').hasError(validation.type) && (validationsSubcategory_form.get('idCategory').dirty || validationsSubcategory_form.get('idCategory').touched)">
+                    <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
+                  </div>
+                </ng-container>
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col class="center-input">
+              <ion-item>
+                <ion-label>Sub categoría</ion-label>
+                <ion-input placeholder="Ingrese nombre subcategoria" [(ngModel)]="addCategories.subCategory"
+                  (ionChange)="addSubCategFormValidator.subCategory.empty='';" formControlName="subCategory">
+                </ion-input>
+              </ion-item>
+              <div class="validation-errors">
+                <ng-container *ngFor="let validation of validation_messages.subCategory">
+                  <div class="error-message"
+                    *ngIf="addSubCategFormValidator.subCategory.empty||validationsSubcategory_form.get('subCategory').hasError(validation.type) && (validationsSubcategory_form.get('subCategory').dirty || validationsSubcategory_form.get('subCategory').touched)">
+                    <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
+                  </div>
+                </ng-container>
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col class="center-input">
+              <ion-item>
+                <ion-label>Descripción</ion-label>
+                <ion-input placeholder="Ingrese descripción subcategoria" [(ngModel)]="addCategories.desSubCategory"
+                  (ionChange)="addSubCategFormValidator.desSubCategory.empty='';" formControlName="desSubCategory">
+                </ion-input>
+              </ion-item>
+              <div class="validation-errors">
+                <ng-container *ngFor="let validation of validation_messages.desSubCategory">
+                  <div class="error-message"
+                    *ngIf="addSubCategFormValidator.desSubCategory.empty||validationsSubcategory_form.get('desSubCategory').hasError(validation.type) && (validationsSubcategory_form.get('desSubCategory').dirty || validationsSubcategory_form.get('desSubCategory').touched)">
+                    <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
+                  </div>
+                </ng-container>
+              </div>
+            </ion-col>
+          </ion-row>
+          <br>
+          <ion-row class="ion-justify-content-center">
+            <section>
+              <ion-button type="reset" size="small" (click)="cleanSubCategForm()" class="buttonNext"
+                title="Limpiar campos">Limpiar</ion-button>
+              <ion-button type="submit" size="small" class="buttonSave" title="Guardar sub categoria">
+                Agregar</ion-button>
+            </section>
+          </ion-row>
+        </form>
+      </ion-toolbar>
+    </ion-card>
+  </ion-grid>
+</ion-content>

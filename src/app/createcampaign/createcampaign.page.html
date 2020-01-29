@@ -1,0 +1,619 @@
+<ion-content class="ionContent">
+  <br>
+  <br>
+  <form [formGroup]="validationsCreateCampaign_form" #form="ngForm" (ngSubmit)="createCampaignForm(form)">
+    <ion-slides class="swiper-no-swiping" pager="true" #slides [options]="slideOpts" (ionSlideWillChange)="doCheck()">
+      <ion-slide>
+        <ion-grid>
+          <ion-row class="ion-justify-content-center">
+            <ion-col size-lg="8">
+              <ion-card class="line-input">
+                <ion-toolbar class="ionToolbar">
+                  <ion-card-header>
+                    <ion-card-title class="ion-text-left">Creación de campañas</ion-card-title>
+                  </ion-card-header>
+                  <ion-row>
+                    <ion-col>
+                      <ion-item>
+                        <ion-label>Nombre campaña</ion-label>
+                        <ion-input placeholder="Ingrese nombre campaña" [(ngModel)]="art.name" id="name"
+                          (ionChange)="createCampaignFormValidator.name.empty='';" formControlName="name"></ion-input>
+                      </ion-item>
+                      <div class="validation-errors">
+                        <ng-container *ngFor="let validation of validation_messages.name">
+                          <div class="error-message"
+                            *ngIf="createCampaignFormValidator.name.empty||validationsCreateCampaign_form.get('name').hasError(validation.type) && (validationsCreateCampaign_form.get('name').dirty || validationsCreateCampaign_form.get('name').touched)">
+                            <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
+                          </div>
+                        </ng-container>
+                      </div>
+                    </ion-col>
+                    <ion-col>
+                      <ion-item>
+                        <ion-label>Grupo de campaña</ion-label>
+                        <ion-select [interfaceOptions]="customActionSheetOptions" mode="ios" [(ngModel)]="art.group"
+                          (ionChange)="createCampaignFormValidator.group.empty='';" id="groupv" formControlName="group"
+                          placeholder="Seleccione" cancelText="Cancelar" okText="Aceptar">
+                          <ion-select-option *ngFor="let group of itemsGroups" value={{group.id}}>{{group.name}}
+                          </ion-select-option>
+                        </ion-select>
+                      </ion-item>
+                      <div class="validation-errors">
+                        <ng-container *ngFor="let validation of validation_messages.group">
+                          <div class="error-message"
+                            *ngIf="createCampaignFormValidator.group.empty||validationsCreateCampaign_form.get('group').hasError(validation.type) && (validationsCreateCampaign_form.get('group').dirty || validationsCreateCampaign_form.get('group').touched)">
+                            <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
+                          </div>
+                        </ng-container>
+                      </div>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col>
+                      <ion-item>
+                        <ion-label>Fecha de inicio</ion-label>
+                        <ion-input readonly="true">{{currentDate}}</ion-input>
+                        <input class="shadow-input" formControlName="dateStart" [(ngModel)]="mydate1"
+                          [owlDateTime]="dt1" (ngModelChange)="obtainDateStart()">
+                        <span class="trigger" [owlDateTimeTrigger]="dt1">
+                          <ion-icon title="Seleccione fecha" name="calendar"></ion-icon>
+                        </span>
+                        <owl-date-time #dt1 showSecondsTimer="true"></owl-date-time>
+                      </ion-item>
+                      <div class="validation-errors">
+                        <ng-container *ngFor="let validation of validation_messages.dateStart">
+                          <div class="error-message"
+                            *ngIf="createCampaignFormValidator.dateStart.empty||validationsCreateCampaign_form.get('dateStart').hasError(validation.type) && (validationsCreateCampaign_form.get('dateStart').dirty || validationsCreateCampaign_form.get('dateStart').touched)">
+                            <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
+                          </div>
+                        </ng-container>
+                      </div>
+                    </ion-col>
+                    <ion-col>
+                      <ion-item>
+                        <ion-label>Fecha de finalizacion</ion-label>
+                        <ion-input readonly="true">{{currentDate2}}</ion-input>
+                        <input class="shadow-input" formControlName="dateEnd" [(ngModel)]="mydate2" [owlDateTime]="dt2"
+                          (ngModelChange)="obtainDateEnd()">
+                        <span class="trigger" [owlDateTimeTrigger]="dt2">
+                          <ion-icon title="Seleccione fecha" name="calendar"></ion-icon>
+                        </span>
+                        <owl-date-time #dt2 showSecondsTimer="true"></owl-date-time>
+                      </ion-item>
+                      <div class="validation-errors">
+                        <ng-container *ngFor="let validation of validation_messages.dateEnd">
+                          <div class="error-message"
+                            *ngIf="createCampaignFormValidator.dateEnd.empty||validationsCreateCampaign_form.get('dateEnd').hasError(validation.type) && (validationsCreateCampaign_form.get('dateEnd').dirty || validationsCreateCampaign_form.get('dateEnd').touched)">
+                            <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
+                          </div>
+                        </ng-container>
+                      </div>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col>
+                      <ion-item>
+                        <ion-label>Exclusion Upsell Frm</ion-label>
+                        <ion-toggle [(ngModel)]="art.excludeNotifUpsellFramework"
+                          formControlName="excludeNotifUpsellFramework" color="primary"></ion-toggle>
+                      </ion-item>
+                    </ion-col>
+                    <ion-col></ion-col>
+                  </ion-row>
+                  <br>
+                  <ion-item-divider color="light">
+                    <ion-label>
+                      Propiedades de Instancia
+                    </ion-label>
+                  </ion-item-divider>
+                  <ion-row>
+                    <ion-col>
+                      <ion-item>
+                        <ion-label>Exacaster</ion-label>
+                        <ion-select [interfaceOptions]="exacasterActionSheetOptions" mode="ios" id="idExa"
+                          [(ngModel)]="art.idExa" formControlName="idExa" (ionChange)="getPropertiesExa();"
+                          placeholder="Seleccione" cancelText="Cancelar" okText="Aceptar">
+                          <ion-select-option *ngFor="let exacaster of itemsExacaster" value="{{exacaster.id}}">
+                            {{exacaster.id}} {{exacaster.name}}
+                          </ion-select-option>
+                        </ion-select>
+                      </ion-item>
+                      <div class="validation-errors">
+                        <ng-container *ngFor="let validation of validation_messages.idExa">
+                          <div class="error-message"
+                            *ngIf="createCampaignFormValidator.idExa.empty||validationsCreateCampaign_form.get('idExa').hasError(validation.type) && (validationsCreateCampaign_form.get('idExa').dirty || validationsCreateCampaign_form.get('idExa').touched)">
+                            <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
+                          </div>
+                        </ng-container>
+                      </div>
+                    </ion-col>
+                    <ion-col>
+                      <ion-item>
+                        <ion-label>Instancia Actual</ion-label>
+                        <ion-input readonly="true">{{instanceAct}}</ion-input>
+                      </ion-item>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col>
+                      <ion-item>
+                        <ion-label>Nombre Instancia</ion-label>
+                        <ion-input readonly="true">{{instanceName}}</ion-input>
+                      </ion-item>
+                    </ion-col>
+                    <ion-col>
+                      <ion-item>
+                        <ion-label>Descripcion</ion-label>
+                        <ion-input readonly="true">{{instanceDesc}}</ion-input>
+                      </ion-item>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col>
+                      <ion-item>
+                        <ion-label>Inicio Instancia</ion-label>
+                        <ion-input readonly="true">{{instanceIn}}</ion-input>
+                      </ion-item>
+                    </ion-col>
+                    <ion-col>
+                      <ion-item>
+                        <ion-label>Fin Instancia</ion-label>
+                        <ion-input readonly="true">{{instanceEnd}}</ion-input>
+                      </ion-item>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col>
+                      <ion-item>
+                        <ion-label>Grupo Control</ion-label>
+                        <ion-input readonly="true">{{instanceCon}}</ion-input>
+                      </ion-item>
+                    </ion-col>
+                    <ion-col>
+                      <ion-item>
+                        <ion-label>Tamaño Objetivo</ion-label>
+                        <ion-input readonly="true">{{instanceObj}}</ion-input>
+                      </ion-item>
+                    </ion-col>
+                  </ion-row>
+                  <br>
+                </ion-toolbar>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-slide>
+      <ion-slide>
+        <ion-grid>
+          <ion-row class="ion-justify-content-center">
+            <ion-col size-lg="8">
+              <ion-card class="line-input">
+                <ion-toolbar class="ionToolbar">
+                  <ion-card-header>
+                    <ion-card-title class="ion-text-left">Evento</ion-card-title>
+                  </ion-card-header>
+                  <div class="ion-padding">
+                    <ion-row>
+                      <ion-col>
+                        <ion-item>
+                          <ion-label>Tipo Base</ion-label>
+                          <ion-select mode="ios" id="typeBase" [(ngModel)]="art.typeBase" formControlName="typeBase"
+                            placeholder="Seleccione" (ionChange)="createCampaignFormValidator.typeBase.empty='';"
+                            cancelText="Cancelar" okText="Aceptar">
+                            <ion-select-option value="NO_ACUMULADA">No Acumulada</ion-select-option>
+                          </ion-select>
+                        </ion-item>
+                        <div class="validation-errors">
+                          <ng-container *ngFor="let validation of validation_messages.typeBase">
+                            <div class="error-message"
+                              *ngIf="createCampaignFormValidator.typeBase.empty||validationsCreateCampaign_form.get('typeBase').hasError(validation.type) && (validationsCreateCampaign_form.get('typeBase').dirty || validationsCreateCampaign_form.get('typeBase').touched)">
+                              <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
+                            </div>
+                          </ng-container>
+                        </div>
+                      </ion-col>
+                      <ion-col>
+                        <ion-item>
+                          <ion-label>Evento</ion-label>
+                          <ion-select [(ngModel)]="art.event" formControlName="event" placeholder="Seleccione"
+                            mode="ios" (ionChange)="getAmount();" cancelText="Cancelar" okText="Aceptar">
+                            <ion-select-option *ngFor="let event of eventProduct" value={{event.id}}>{{event.label}}
+                            </ion-select-option>
+                          </ion-select>
+                        </ion-item>
+                        <div class="validation-errors">
+                          <ng-container *ngFor="let validation of validation_messages.event">
+                            <div class="error-message"
+                              *ngIf="createCampaignFormValidator.event.empty||validationsCreateCampaign_form.get('event').hasError(validation.type) && (validationsCreateCampaign_form.get('event').dirty || validationsCreateCampaign_form.get('event').touched)">
+                              <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
+                            </div>
+                          </ng-container>
+                        </div>
+                      </ion-col>
+                    </ion-row>
+                    <ion-row>
+                      <ion-col>
+                        <ion-item>
+                          <ion-label>Monto</ion-label>
+                          <ion-input readonly="true" [(ngModel)]="art.amount" formControlName="amount"></ion-input>
+                        </ion-item>
+                      </ion-col>
+                      <ion-col>
+                        <ion-item>
+                          <ion-label>Premio</ion-label>
+                          <ion-select [(ngModel)]="art.prize" (ionChange)="createCampaignFormValidator.prize.empty='';"
+                            formControlName="prize" placeholder="Seleccione" mode="ios" cancelText="Cancelar"
+                            okText="Aceptar">
+                            <ion-select-option *ngFor="let prize of itemsPrize" value={{prize.id}}>{{prize.label}}
+                            </ion-select-option>
+                          </ion-select>
+                        </ion-item>
+                        <div class="validation-errors">
+                          <ng-container *ngFor="let validation of validation_messages.prize">
+                            <div class="error-message"
+                              *ngIf="createCampaignFormValidator.prize.empty||validationsCreateCampaign_form.get('prize').hasError(validation.type) && (validationsCreateCampaign_form.get('prize').dirty || validationsCreateCampaign_form.get('prize').touched)">
+                              <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
+                            </div>
+                          </ng-container>
+                        </div>
+                      </ion-col>
+                    </ion-row>
+                  </div>
+                  <br>
+                </ion-toolbar>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-slide>
+      <ion-slide>
+        <ion-grid>
+          <ion-row class="ion-justify-content-center">
+            <ion-col size-lg="8">
+              <ion-card>
+                <ion-toolbar class="ionToolbar">
+                  <ion-card-header>
+                    <ion-card-title class="ion-text-left">Notificaciones</ion-card-title>
+                  </ion-card-header>
+                  <ion-row>
+                    <ion-col class="typeNotification-input">
+                      <ion-item>
+                        <ion-label>Tipo de notificación</ion-label>
+                        <ion-select mode="ios" [(ngModel)]="art.typeMessage" (ionChange)="typeNotification();"
+                          formControlName="typeMessage" placeholder="Seleccione" cancelText="Cancelar" okText="Aceptar">
+                          <ion-select-option value="START">Inicio</ion-select-option>
+                          <ion-select-option value="END">Fin</ion-select-option>
+                          <ion-select-option value="REMINDER">Recordatorio</ion-select-option>
+                        </ion-select>
+                      </ion-item>
+                      <div class="validation-errors">
+                        <ng-container *ngFor="let validation of validation_messages.typeMessage">
+                          <div class="error-message"
+                            *ngIf="validationsCreateCampaign_form.get('typeMessage').hasError(validation.type) && (validationsCreateCampaign_form.get('typeMessage').dirty || validationsCreateCampaign_form.get('typeMessage').touched)">
+                            <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
+                          </div>
+                        </ng-container>
+                      </div>
+                    </ion-col>
+                    <ion-col class="areaMessage-input">
+                      <ion-item>
+                        <ion-label>Mensaje</ion-label>
+                        <ion-textarea id="message" class="ion-text-left" placeholder="Redacte notificación"
+                          (ionFocus)="moveCursorToEnd();" [(ngModel)]="art.message" (ionChange)="saveNotification();"
+                          formControlName="message"></ion-textarea>
+                      </ion-item>
+                      <div class="validation-errors">
+                        <ng-container *ngFor="let validation of validation_messages.message">
+                          <div class="error-message"
+                            *ngIf="validationsCreateCampaign_form.get('message').hasError(validation.type) && (validationsCreateCampaign_form.get('message').dirty || validationsCreateCampaign_form.get('message').touched)">
+                            <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
+                          </div>
+                        </ng-container>
+                      </div>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row class="facilitator-input">
+                    <ion-col>
+                      <ion-item [disabled]="disabledNotifi">
+                        <ion-label>Facilitador</ion-label>
+                        <ion-select [(ngModel)]="art.agileDay" [disabled]="disabledNotifi" (ionChange)="agileDay();"
+                          formControlName="agileDay" placeholder="Seleccione" cancelText="Cancelar" okText="Aceptar">
+                          <ion-select-option value="7">Lun - Dom</ion-select-option>
+                          <ion-select-option value="5">Lun - Vie </ion-select-option>
+                          <ion-select-option value="3">Lun, Mie, Vie</ion-select-option>
+                        </ion-select>
+                      </ion-item>
+                    </ion-col>
+                    <ion-col>
+                      <ion-item [disabled]="disabledHrAgile">
+                        <ion-label>Hora Facilitador</ion-label>
+                        <input class="shadow-input" formControlName="hrAgile" [(ngModel)]="art.hrAgile"
+                          [owlDateTime]="dt3" (ngModelChange)="agileHour()">
+                        <input class="owlDTP-input" [owlDateTimeTrigger]="dt3" placeholder="Coloque hora"
+                          [value]="timerAgile">
+                        <owl-date-time #dt3 showSecondsTimer="true" pickerType="timer"></owl-date-time>
+                      </ion-item>
+                    </ion-col>
+                    <ion-col>
+                      <ion-item [disabled]="disabledHrStartCamp">
+                        <ion-label>Hora de Notificación</ion-label>
+                        <input class="shadow-input" formControlName="hrStartCamp" [(ngModel)]="art.hrStartCamp"
+                          [owlDateTime]="dt4" (ngModelChange)="notificationHour()">
+                        <input class="owlDTP-input" [owlDateTimeTrigger]="dt4" placeholder="Coloque hora"
+                          [value]="timeNotifStartEnd">
+                        <owl-date-time #dt4 showSecondsTimer="true" pickerType="timer"></owl-date-time>
+                      </ion-item>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row class="notification-input">
+                    <ion-col>
+                      <ion-item>
+                        <ion-checkbox [(ngModel)]="art.lun" [disabled]="disabledNotifi" formControlName="lun"
+                          color="primary" slot="start"></ion-checkbox>
+                        <ion-label>Lun</ion-label>
+                        <ion-datetime placeholder="Coloque hora" *ngIf="art.lun" formControlName="hrLun"
+                          [(ngModel)]="art.hrLun" displayFormat=" H:mm:ss" picker-format="H:mm:ss" done-text="Aceptar"
+                          cancel-text="Cancelar" [hourValues]="hourValues" [minuteValues]="minuteValues"></ion-datetime>
+                      </ion-item>
+                    </ion-col>
+                    <ion-col>
+                      <ion-item>
+                        <ion-checkbox [(ngModel)]="art.mar" [disabled]="disabledNotifi" formControlName="mar"
+                          color="primary" slot="start"></ion-checkbox>
+                        <ion-label>Mar</ion-label>
+                        <ion-datetime placeholder="Coloque hora" *ngIf="art.mar" formControlName="hrMar"
+                          [(ngModel)]="art.hrMar" displayFormat=" H:mm:ss" picker-format="H:mm:ss" done-text="Aceptar"
+                          cancel-text="Cancelar" [hourValues]="hourValues" [minuteValues]="minuteValues"></ion-datetime>
+                      </ion-item>
+                    </ion-col>
+                    <ion-col>
+                      <ion-item>
+                        <ion-checkbox [(ngModel)]="art.mie" [disabled]="disabledNotifi" formControlName="mie"
+                          color="primary" slot="start"></ion-checkbox>
+                        <ion-label>Mie</ion-label>
+                        <ion-datetime placeholder="Coloque hora" *ngIf="art.mie" formControlName="hrMie"
+                          [(ngModel)]="art.hrMie" displayFormat=" H:mm:ss" picker-format="H:mm:ss" done-text="Aceptar"
+                          cancel-text="Cancelar" [hourValues]="hourValues" [minuteValues]="minuteValues"></ion-datetime>
+                      </ion-item>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row class="notification-input">
+                    <ion-col>
+                      <ion-item>
+                        <ion-checkbox [(ngModel)]="art.jue" [disabled]="disabledNotifi" formControlName="jue"
+                          color="primary" slot="start"></ion-checkbox>
+                        <ion-label>Jue</ion-label>
+                        <ion-datetime placeholder="Coloque hora" *ngIf="art.jue" formControlName="hrJue"
+                          [(ngModel)]="art.hrJue" displayFormat=" H:mm:ss" picker-format="H:mm:ss" done-text="Aceptar"
+                          cancel-text="Cancelar" [hourValues]="hourValues" [minuteValues]="minuteValues"></ion-datetime>
+                      </ion-item>
+                    </ion-col>
+                    <ion-col>
+                      <ion-item>
+                        <ion-checkbox [(ngModel)]="art.vie" [disabled]="disabledNotifi" formControlName="vie"
+                          color="primary" slot="start"></ion-checkbox>
+                        <ion-label>Vie</ion-label>
+                        <ion-datetime placeholder="Coloque hora" *ngIf="art.vie" formControlName="hrVie"
+                          [(ngModel)]="art.hrVie" displayFormat=" H:mm:ss" picker-format="H:mm:ss" done-text="Aceptar"
+                          cancel-text="Cancelar" [hourValues]="hourValues" [minuteValues]="minuteValues"></ion-datetime>
+                      </ion-item>
+                    </ion-col>
+                    <ion-col class="mobile-col"></ion-col>
+                  </ion-row>
+                  <ion-row class="notification-input">
+                    <ion-col>
+                      <ion-item>
+                        <ion-checkbox [(ngModel)]="art.sab" [disabled]="disabledNotifi" formControlName="sab"
+                          color="primary" slot="start"></ion-checkbox>
+                        <ion-label>Sab</ion-label>
+                        <ion-datetime placeholder="Coloque hora" *ngIf="art.sab" formControlName="hrSab"
+                          [(ngModel)]="art.hrSab" displayFormat=" H:mm:ss" picker-format="H:mm:ss" done-text="Aceptar"
+                          cancel-text="Cancelar" [hourValues]="hourValues" [minuteValues]="minuteValues"></ion-datetime>
+                      </ion-item>
+                    </ion-col>
+                    <ion-col>
+                      <ion-item>
+                        <ion-checkbox [(ngModel)]="art.dom" [disabled]="disabledNotifi" formControlName="dom"
+                          color="primary" slot="start"></ion-checkbox>
+                        <ion-label>Dom</ion-label>
+                        <ion-datetime placeholder="Coloque hora" *ngIf="art.dom" formControlName="hrDom"
+                          [(ngModel)]="art.hrDom" displayFormat=" H:mm:ss" picker-format="H:mm:ss" done-text="Aceptar"
+                          cancel-text="Cancelar" [hourValues]="hourValues" [minuteValues]="minuteValues"></ion-datetime>
+                      </ion-item>
+                    </ion-col>
+                    <ion-col>
+                      <section class="full-width">
+                        <ion-button color="tertiary" [disabled]="disabledSaveBtn" (click)="saveMessage()"
+                          title="Guardar nuevo mensaje">
+                          <ion-icon slot="icon-only" name="save"></ion-icon>
+                        </ion-button>
+                        <ion-button color="tertiary" [disabled]="disableUpdateBtn" (click)="modifiedMessage()"
+                          title="Guardar modificacion de mensaje">
+                          <ion-icon slot="icon-only" name="create"></ion-icon>
+                        </ion-button>
+                        <ion-button color="tertiary" (click)="cleanMessage()" title="Limpiar campos">
+                          <ion-icon name="refresh-circle"></ion-icon>
+                        </ion-button>
+                      </section>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col>
+                      <div id="div1">
+                        <table datatable [dtOptions]="dtOptions" class="stripe row-border order-column">
+                          <thead>
+                            <tr>
+                              <th>Tipo</th>
+                              <th>Notificación</th>
+                              <th>Horario</th>
+                              <th></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let art of dayMessage">
+                              <td>{{art.labelTypeSms}}</td>
+                              <td>{{art.message}}</td>
+                              <td>{{art.description}}</td>
+                              <td>
+                                <ion-icon (click)="selectMessage(art)" size="small" slot="icon-only" name="construct"
+                                  title="Modificar mensaje">
+                                </ion-icon>
+                                <ion-icon></ion-icon>
+                                <ion-icon (click)="deleteMessage(art)" size="small" slot="icon-only" name="trash"
+                                  title="Eliminar mensaje">
+                                </ion-icon>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </ion-col>
+                  </ion-row>
+                </ion-toolbar>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-slide>
+      <ion-slide>
+        <ion-grid>
+          <ion-row class="ion-justify-content-center">
+            <ion-col size-lg="8">
+              <ion-card class="line-input">
+                <ion-toolbar class="ionToolbar">
+                  <ion-card-header>
+                    <ion-card-title class="ion-text-left">Resumen</ion-card-title>
+                  </ion-card-header>
+                  <ion-row>
+                    <ion-item-divider color="light">
+                      <ion-label>
+                        Creacion de Campañas
+                      </ion-label>
+                    </ion-item-divider>
+                    <ion-col>
+                      <ion-item>
+                        <ion-label>Nombre</ion-label>
+                        <ion-label>{{summaryName}}</ion-label>
+                      </ion-item>
+                    </ion-col>
+                    <ion-col>
+                      <ion-item>
+                        <ion-label>Grupo</ion-label>
+                        <ion-label>{{summaryGroup}}</ion-label>
+                      </ion-item>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col>
+                      <ion-item>
+                        <ion-label>Fecha Inicio</ion-label>
+                        <ion-label>{{summaryDateSt}}</ion-label>
+                      </ion-item>
+                    </ion-col>
+                    <ion-col>
+                      <ion-item>
+                        <ion-label>Fecha Final</ion-label>
+                        <ion-label>{{summaryDateEn}}</ion-label>
+                      </ion-item>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col>
+                      <ion-item>
+                        <ion-label>ExclusionUF</ion-label>
+                        <ion-label>{{summaryExclu}}</ion-label>
+                      </ion-item>
+                    </ion-col>
+                    <ion-col>
+                      <ion-item>
+                        <ion-label>Exacaster</ion-label>
+                        <ion-label>{{summaryExa}}</ion-label>
+                      </ion-item>
+                    </ion-col>
+                  </ion-row>
+                  <ion-item-divider color="light">
+                    <ion-label>
+                      Evento
+                    </ion-label>
+                  </ion-item-divider>
+                  <ion-row>
+                    <ion-col>
+                      <ion-item>
+                        <ion-label>Tipo Base</ion-label>
+                        <ion-label>{{summaryTypeBd}}</ion-label>
+                      </ion-item>
+                    </ion-col>
+                    <ion-col>
+                      <ion-item>
+                        <ion-label>Evento</ion-label>
+                        <ion-label>{{summaryEven}}</ion-label>
+                      </ion-item>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col>
+                      <ion-item>
+                        <ion-label>Monto</ion-label>
+                        <ion-label>{{summaryAmou}}</ion-label>
+                      </ion-item>
+                    </ion-col>
+                    <ion-col>
+                      <ion-item>
+                        <ion-label>Premio</ion-label>
+                        <ion-label>{{summaryPriz}}</ion-label>
+                      </ion-item>
+                    </ion-col>
+                  </ion-row>
+                  <ion-item-divider color="light">
+                    <ion-label>
+                      Notificaciones
+                    </ion-label>
+                  </ion-item-divider>
+                  <ion-row>
+                    <ion-col>
+                      <div id="div1">
+                        <table datatable [dtOptions]="dtOptions" class="stripe row-border order-column">
+                          <thead>
+                            <tr>
+                              <th>Tipo</th>
+                              <th>Notificación</th>
+                              <th>Horario</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let art of dayMessage">
+                              <td>{{art.labelTypeSms}}</td>
+                              <td>{{art.message}}</td>
+                              <td>{{art.description}}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </ion-col>
+                  </ion-row>
+                  <br>
+                </ion-toolbar>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-slide>
+    </ion-slides>
+    <br>
+    <br>
+    <br>
+    <div class="sticky">
+      <ion-grid>
+        <ion-row class="ion-justify-content-center">
+          <section>
+            <ion-button size="small" class="buttonPrev" (click)="prev()" *ngIf="!disablePrevBtn">Atras</ion-button>
+            <ion-button size="small" class="buttonNext" (click)="next()" *ngIf="!disableNextBtn">Siguiente</ion-button>
+            <ion-button size="small" class="buttonSave" type="submit" [disabled]="!validationsCreateCampaign_form.valid"
+              *ngIf="!disableSaveBtn" title="Guardar campaña">Guardar</ion-button>
+          </section>
+        </ion-row>
+        <br>
+      </ion-grid>
+    </div>
+  </form>
+</ion-content>

@@ -1,0 +1,91 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-row>
+      <div id="menuButton">
+        <ion-buttons slot="start">
+          <ion-menu-button autoHide="false"></ion-menu-button>
+        </ion-buttons>
+      </div>
+      <ion-button color="primary" (click)="createCampaign()">Crear Campaña</ion-button>
+      <ion-button color="tertiary" (click)="adminCampaign()">Administracion Campaña</ion-button>
+      <ion-button color="warning" (click)="presentAlert()">Ayuda</ion-button>
+    </ion-row>
+    <ion-avatar slot="end">
+      <img src="/assets/icon/avatar4.png">
+    </ion-avatar>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <form #form="ngForm" (ngSubmit)="eventCampaignForm(form)">
+    <ion-grid>
+      <ion-row color="primary" justify-content-center>
+        <ion-col size-lg="8">
+          <ion-card>
+            <ion-toolbar>
+              <ion-card-header>
+                <ion-card-title>Evento</ion-card-title>
+              </ion-card-header>
+              <ion-row>
+                <ion-col>
+                  <ion-item>
+                    <ion-label>Evento</ion-label>
+                    <ion-select ngModel name="category" placeholder="Seleccione">
+                      <ion-select-option value="1">Evento 1</ion-select-option>
+                      <ion-select-option value="2">Evento 2</ion-select-option>
+                    </ion-select>
+                  </ion-item>
+                </ion-col>
+                <ion-col>
+                  <ion-item>
+                    <ion-label>Monto</ion-label>
+                    <ion-select ngModel name="category" placeholder="Seleccione">
+                      <ion-select-option value="1">Monto 1</ion-select-option>
+                      <ion-select-option value="2">Monto 2</ion-select-option>
+                    </ion-select>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-item>
+                    <ion-label>Premio</ion-label>
+                    <ion-select ngModel name="category" placeholder="Seleccione">
+                      <ion-select-option value="1">Premio 1</ion-select-option>
+                      <ion-select-option value="2">Premio 2</ion-select-option>
+                    </ion-select>
+                  </ion-item>
+                </ion-col>
+                <ion-col>
+                  <ion-item>
+                    <ion-label>Descripcion</ion-label>
+                    <ion-input ngModel name="description"></ion-input>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+              <br>
+              <br>
+              <br>
+              <ion-row>
+                <ion-col></ion-col>
+                <ion-col>
+                  <ion-button type="reset" expand="full" color="primary">Limpiar</ion-button>
+                </ion-col>
+                <ion-col>
+                  <ion-button type="submit" expand="full" color="success">Crear</ion-button>
+                </ion-col>
+                <ion-col></ion-col>
+              </ion-row>
+            </ion-toolbar>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>
+<ion-footer>
+  <ion-item-divider color="dark">
+    <ion-label id="labelCentral">
+      Tigo 2019 copyright © www.tigo.com.hn
+    </ion-label>
+  </ion-item-divider>
+</ion-footer>

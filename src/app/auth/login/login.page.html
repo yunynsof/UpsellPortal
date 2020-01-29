@@ -1,0 +1,62 @@
+<ion-content class="ionContent">
+  <form [formGroup]="validations_form" #form="ngForm" (ngSubmit)="login(form)">
+    <ion-grid>
+      <ion-row color="primary" class="ion-justify-content-center">
+        <ion-col class="ion-align-self-center" size-md="10" size-lg="5" size-xs="15" size-sm="10" size-xl="5">
+          <br><br><br><br>
+          <ion-card class="login-input">
+            <ion-toolbar class="ionToolbar">
+              <br><br>
+              <div class="ion-text-center">
+                <img src="./assets/icon/Logo_Tigo.svg.png">
+              </div>
+              <br>
+              <div class="ion-text-center">
+                <h3>Upsell Portal</h3>
+              </div>
+              <div class="ion-padding">
+                <ion-row>
+                  <ion-col>
+                    <ion-item>
+                      <ion-input id="claim" formControlName="claim" placeholder="Nombre de usuario"
+                        (ionChange)="loginFormValidator.claim.empty='';">
+                      </ion-input>
+                    </ion-item>
+                  </ion-col>
+                </ion-row>
+                <div class="validation-errors">
+                  <ng-container *ngFor="let validation of validation_messages.claim">
+                    <div class="error-message"
+                      *ngIf="loginFormValidator.claim.empty || validations_form.get('claim').hasError(validation.type) && (validations_form.get('claim').dirty || validations_form.get('claim').touched)">
+                      <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
+                    </div>
+                  </ng-container>
+                </div>
+                <ion-row>
+                  <ion-col>
+                    <ion-item>
+                      <ion-input formControlName="secret" type="password" placeholder="Contraseña"
+                        (ionChange)="loginFormValidator.secret.empty='';" (keyup.enter)="login(form)"></ion-input>
+                    </ion-item>
+                  </ion-col>
+                </ion-row>
+                <div class="validation-errors">
+                  <ng-container *ngFor="let validation of validation_messages.secret">
+                    <div class="error-message"
+                      *ngIf="loginFormValidator.secret.empty || validations_form.get('secret').hasError(validation.type) && (validations_form.get('secret').dirty || validations_form.get('secret').touched)">
+                      <ion-icon name="information-circle-outline"></ion-icon> {{ validation.message }}
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+              <div class="ion-padding">
+                <ion-button size="large" class="buttonLogin" type="submit" expand="block">Entrar
+                </ion-button>
+              </div>
+            </ion-toolbar>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

@@ -1,0 +1,186 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-row>
+      <div id="menuButton">
+        <ion-buttons slot="start">
+          <ion-menu-button autoHide="false"></ion-menu-button>
+        </ion-buttons>
+      </div>
+      <ion-button color="primary" (click)="createCampaign()">Crear Campaña</ion-button>
+      <ion-button color="tertiary" (click)="adminCampaign()">Administracion Campaña</ion-button>
+      <ion-button color="warning" (click)="presentAlert()">Ayuda</ion-button>
+    </ion-row>
+    <ion-avatar slot="end">
+      <img src="/assets/icon/avatar4.png">
+    </ion-avatar>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <form #form="ngForm" (ngSubmit)="notificationCampaignForm(form)">
+    <ion-grid>
+      <ion-row color="primary" justify-content-center>
+        <ion-col size-lg="8">
+          <ion-card>
+            <ion-toolbar>
+              <ion-card-header>
+                <ion-card-title>Adicion de Mensajes</ion-card-title>
+              </ion-card-header>
+              <ion-row>
+                <ion-col size-md="5">
+                  <ion-item>
+                    <ion-label>Tipo de mensaje</ion-label>
+                    <ion-select ngModel name="type" placeholder="Seleccione">
+                      <ion-select-option value="1">Tipo 1</ion-select-option>
+                      <ion-select-option value="2">Tipo 2</ion-select-option>
+                    </ion-select>
+                  </ion-item>
+                </ion-col>
+                <ion-col>
+                  <ion-item>
+                    <ion-label>Mensaje</ion-label>
+                    <ion-input ngModel name="message" color="dark"></ion-input>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-item>
+                    <ion-checkbox ngModel name="lun" color="dark" checked slot="start"></ion-checkbox>
+                    <ion-label>Lun</ion-label>
+                    <ion-input ngModel type="time" name="hrLun" max="22:30:00" min="04:00:00" step="1">
+                    </ion-input>
+                  </ion-item>
+                </ion-col>
+                <ion-col>
+                  <ion-item>
+                    <ion-checkbox ngModel name="mar" color="dark" checked slot="start"></ion-checkbox>
+                    <ion-label>Mar</ion-label>
+                    <ion-input ngModel type="time" name="hrMar" max="22:30:00" min="10:00:00" step="1">
+                    </ion-input>
+                  </ion-item>
+                </ion-col>
+                <ion-col>
+                  <ion-item>
+                    <ion-checkbox ngModel name="mier" color="dark" checked slot="start"></ion-checkbox>
+                    <ion-label>Mie</ion-label>
+                    <ion-input ngModel type="time" name="hrMier" max="22:30:00" min="10:00:00" step="1">
+                    </ion-input>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-item>
+                    <ion-checkbox ngModel name="jue" color="dark" checked slot="start"></ion-checkbox>
+                    <ion-label>Jue</ion-label>
+                    <ion-input ngModel type="time" name="hrJu" max="22:30:00" min="10:00:00" step="1">
+                    </ion-input>
+                  </ion-item>
+                </ion-col>
+                <ion-col>
+                  <ion-item>
+                    <ion-checkbox ngModel name="vie" color="dark" checked slot="start"></ion-checkbox>
+                    <ion-label>Vie</ion-label>
+                    <ion-input ngModel type="time" name="hrVie" max="22:30:00" min="10:00:00" step="1">
+                    </ion-input>
+                  </ion-item>
+                </ion-col>
+                <ion-col></ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-item>
+                    <ion-checkbox ngModel name="sab" color="dark" checked slot="start"></ion-checkbox>
+                    <ion-label>Sab</ion-label>
+                    <ion-input ngModel type="time" name="hrSab" max="22:30:00" min="10:00:00" step="1">
+                    </ion-input>
+                  </ion-item>
+                </ion-col>
+                <ion-col>
+                  <ion-item>
+                    <ion-checkbox ngModel name="dom" color="dark" checked slot="start"></ion-checkbox>
+                    <ion-label>Dom</ion-label>
+                    <ion-input ngModel type="time" name="hrDom" max="22:30:00" min="10:00:00" step="1">
+                    </ion-input>
+                  </ion-item>
+                </ion-col>
+                <ion-col>
+                  <section class="full-width">
+                    <header>Adicionar mensaje</header>
+                    <ion-button expand="full" color="tertiary">Guardar</ion-button>
+                  </section>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                  <ion-item-divider></ion-item-divider>
+              </ion-row>
+              <br>
+              <br>
+              <br>
+              <ion-row>
+                <ion-col>
+                  <table id="example" datatable [dtOptions]="dtOptions" class="stripe row-border order-column">
+                    <thead>
+                      <tr>
+                        <th>Exacaster</th>
+                        <th>Tipo</th>
+                        <th>Mensaje</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let art of articulos">
+                        <td>{{art.exacaster}}</td>
+                        <td>{{art.typeMessage}}</td>
+                        <td>{{art.message}}</td>
+                        <td>
+                          <ion-buttons collapse="true">
+                            <ion-button (click)="moveToFirst()">
+                              <ion-icon slot="icon-only" name="construct"></ion-icon>
+                            </ion-button>
+                            <ion-button>
+                              <ion-icon slot="icon-only" name="copy"></ion-icon>
+                            </ion-button>
+                            <ion-button>
+                              <ion-icon slot="icon-only" name="trash"></ion-icon>
+                            </ion-button>
+                          </ion-buttons>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <th>Exacaster</th>
+                        <th>Tipo</th>
+                        <th>Mensaje</th>
+                        <th></th>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </ion-col>
+              </ion-row>
+              <br>
+              <ion-row>
+                <ion-col></ion-col>
+                <ion-col>
+                  <ion-button type="reset" expand="full" color="primary">Limpiar</ion-button>
+                </ion-col>
+                <ion-col>
+                  <ion-button type="submit" expand="full" color="success">Crear</ion-button>
+                </ion-col>
+                <ion-col></ion-col>
+              </ion-row>
+            </ion-toolbar>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>
+<ion-footer>
+  <ion-item-divider color="dark">
+    <ion-label id="labelCentral">
+      Tigo 2019 copyright © www.tigo.com.hn
+    </ion-label>
+  </ion-item-divider>
+</ion-footer>
