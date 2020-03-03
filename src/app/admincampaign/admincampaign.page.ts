@@ -34,12 +34,6 @@ export class AdmincampaignPage implements OnInit {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-
-      if (this.authService.isAuth() != null || !this.authService.isTokenExpired()) {
-        this.navController.navigateRoot(['admincampaign']);
-      } else {
-        this.navController.navigateRoot(['login']);
-      }
     });
   }
 

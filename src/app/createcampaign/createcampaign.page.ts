@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { IonSlides } from '@ionic/angular';
 import { AlertService } from '../auth/alert.service';
-import { NavController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
 import { DataTableDirective } from 'angular-datatables';
 import { Platform } from '@ionic/angular';
@@ -105,7 +104,6 @@ export class CreatecampaignPage implements OnInit {
     public formBuilder: FormBuilder,
     private authService: AuthService,
     private alertService: AlertService,
-    private navController: NavController,
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
@@ -120,14 +118,6 @@ export class CreatecampaignPage implements OnInit {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-
-      if (this.authService.isAuth() != null || !this.authService.isTokenExpired()) {
-        this.currentDate = null;
-        this.currentDate2 = null;
-        this.navController.navigateRoot(['createcampaign']);
-      } else {
-        this.navController.navigateRoot(['login']);
-      }
     });
   }
 

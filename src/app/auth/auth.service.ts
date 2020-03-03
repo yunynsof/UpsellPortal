@@ -12,7 +12,7 @@ import { JwtHelperService } from "@auth0/angular-jwt";
 import { AlertService } from '../auth/alert.service';
 import { ModalController } from '@ionic/angular';
 
-const TOKEN_KEY = '';
+const content = require('../../../../../../../../../../upsell-portal/conf/auth-config.json');
 const helper = new JwtHelperService();
 
 @Injectable({
@@ -21,14 +21,14 @@ const helper = new JwtHelperService();
 export class AuthService {
 
   AUTH_SERVER_ADDRESS: string = 'http://localhost:3000';
-  URL_SERVER: string = 'http://192.168.159.13:7004';
+  URL_SERVER: string;
   authSubject = new BehaviorSubject(false);
 
   constructor(
     private httpClient: HttpClient,
     private modalController: ModalController,
     private alertService: AlertService
-  ) { }
+  ) { this.URL_SERVER = content.properties.url_server}
 
   register(user: User): Observable<AuthResponse> {
     return this.httpClient.post<AuthResponse>(`${this.AUTH_SERVER_ADDRESS}/register`, user);
@@ -38,10 +38,10 @@ export class AuthService {
 
     let headers = new HttpHeaders();
     headers = headers.set('Content-Type', 'application/x-www-form-urlencoded');
-
+    
     return this.httpClient.post(`${this.URL_SERVER}/upsell-authentication-api/resources/v1/jwttoken/authenticate?claim=${user.claim}&secret=${user.secret}&realm=upsell`, "", { headers: headers, observe: 'response' }).pipe(
       tap(async (res) => {
-        localStorage.setItem(TOKEN_KEY, res.headers.get('authorization'));
+        localStorage.setItem('KeyTok', res.headers.get('authorization'));
         this.authSubject.next(true);
       })
     );
@@ -50,27 +50,25 @@ export class AuthService {
   createCampaignForm(data) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
-      'Authorization': localStorage.getItem(TOKEN_KEY),
+      'Authorization': localStorage.getItem('KeyTok'),
     });
-    console.log(data);
-    console.log(JSON.stringify(data));
+  
     return this.httpClient.post(`${this.URL_SERVER}/upsell-campaign-api/resources/v1/campaign`, data, { headers });
   }
 
   modifiedCampaignForm(id, campaign) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
-      'Authorization': localStorage.getItem(TOKEN_KEY),
+      'Authorization': localStorage.getItem('KeyTok'),
     });
-    console.log(campaign);
-    console.log(JSON.stringify(campaign));
+  
     return this.httpClient.put(`${this.URL_SERVER}/upsell-campaign-api/resources/v1/campaign/${id}`, campaign, { headers });
   }
 
   groupCampaignForm(group: Group) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
-      'Authorization': localStorage.getItem(TOKEN_KEY),
+      'Authorization': localStorage.getItem('KeyTok'),
     });
     return this.httpClient.post(`${this.URL_SERVER}/upsell-category-api/resources/v1/group`, group, { headers });
   }
@@ -86,7 +84,7 @@ export class AuthService {
   addCategoryForm(category: Category) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
-      'Authorization': localStorage.getItem(TOKEN_KEY),
+      'Authorization': localStorage.getItem('KeyTok'),
     });
     return this.httpClient.post(`${this.URL_SERVER}/upsell-category-api/resources/v1/category`, category, { headers });
   }
@@ -94,7 +92,7 @@ export class AuthService {
   addSubCategoryForm(data1) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
-      'Authorization': localStorage.getItem(TOKEN_KEY),
+      'Authorization': localStorage.getItem('KeyTok'),
     });
     let subCategory = {
       name: data1.subCategory,
@@ -106,7 +104,7 @@ export class AuthService {
   MethodPutCampaign(campaign) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
-      'Authorization': localStorage.getItem(TOKEN_KEY),
+      'Authorization': localStorage.getItem('KeyTok'),
     });
     return this.httpClient.put(`${this.URL_SERVER}/upsell-campaign-api/resources/v1/campaign/${campaign.id}/${campaign.status}`, null, { headers });
   }
@@ -114,7 +112,7 @@ export class AuthService {
   MethodDeleteCampaign(idCampaign) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
-      'Authorization': localStorage.getItem(TOKEN_KEY),
+      'Authorization': localStorage.getItem('KeyTok'),
     });
     return this.httpClient.delete(`${this.URL_SERVER}/upsell-campaign-api/resources/v1/campaign/${idCampaign}`, { headers });
   }
@@ -122,7 +120,7 @@ export class AuthService {
   getCategories() {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
-      'Authorization': localStorage.getItem(TOKEN_KEY),
+      'Authorization': localStorage.getItem('KeyTok'),
     });
 
     return new Promise(resolve => {
@@ -137,7 +135,7 @@ export class AuthService {
   getGroup() {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
-      'Authorization': localStorage.getItem(TOKEN_KEY),
+      'Authorization': localStorage.getItem('KeyTok'),
     });
     return new Promise(resolve => {
       this.httpClient.get(`${this.URL_SERVER}/upsell-category-api/resources/v1/group`, { headers }).subscribe(data => {
@@ -151,7 +149,7 @@ export class AuthService {
   saveCategory(data) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
-      'Authorization': localStorage.getItem(TOKEN_KEY),
+      'Authorization': localStorage.getItem('KeyTok'),
     });
     return this.httpClient.post(`${this.URL_SERVER}/upsell-category-api-web/resources/category`, JSON.stringify(data), { headers });
   }
@@ -159,7 +157,7 @@ export class AuthService {
   getEventProduct() {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
-      'Authorization': localStorage.getItem(TOKEN_KEY),
+      'Authorization': localStorage.getItem('KeyTok'),
     });
     return new Promise(resolve => {
       this.httpClient.get(`${this.URL_SERVER}/upsell-event-api/resources/v1/eventProduct`, { headers }).subscribe(data => {
@@ -173,7 +171,7 @@ export class AuthService {
   getEventPrize() {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
-      'Authorization': localStorage.getItem(TOKEN_KEY),
+      'Authorization': localStorage.getItem('KeyTok'),
     });
     return new Promise(resolve => {
       this.httpClient.get(`${this.URL_SERVER}/upsell-event-api/resources/v1/eventPrize`, { headers }).subscribe(data => {
@@ -187,7 +185,7 @@ export class AuthService {
   getExacaster() {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
-      'Authorization': localStorage.getItem(TOKEN_KEY),
+      'Authorization': localStorage.getItem('KeyTok'),
     });
     return new Promise(resolve => {
       this.httpClient.get(`${this.URL_SERVER}/upsell-exacaster-api/resources/v1/exacasterCmpHeader`, { headers }).subscribe(data => {
@@ -201,7 +199,7 @@ export class AuthService {
   getCampaign(alertService) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
-      'Authorization': localStorage.getItem(TOKEN_KEY),
+      'Authorization': localStorage.getItem('KeyTok'),
     });
     return new Promise(resolve => {
       this.httpClient.get(`${this.URL_SERVER}/upsell-campaign-api/resources/v1/campaign`, { headers }).subscribe(data => {
@@ -220,7 +218,6 @@ export class AuthService {
   }
 
   async logout() {
-    localStorage.setItem(TOKEN_KEY, null);
     localStorage.clear();
     this.authSubject.next(false);
   }
@@ -228,20 +225,26 @@ export class AuthService {
   isLoggedIn() {
     return this.authSubject.asObservable();
   }
+
   isAuthenticated() {
-    return this.authSubject.value;
+    if (this.isAuth() && !this.isTokenExpired()) {
+      return true;
+    } else { return false; }
   }
 
   isAuth() {
-    return localStorage.getItem(TOKEN_KEY);
+   
+    if (localStorage.getItem('KeyTok') == null || localStorage.getItem('KeyTok') == "") {
+      return false;
+    } else { return true }
   }
 
   isTokenExpired(token?: string): boolean {
-    if (!token) token = this.isAuth();
+    if (!token) token = localStorage.getItem('KeyTok');
     if (!token) return true;
 
     const date = helper.getTokenExpirationDate(token);
-    console.log(date);
+    
     if (date === undefined) return false;
     return !(date.valueOf() > new Date().valueOf());
   }

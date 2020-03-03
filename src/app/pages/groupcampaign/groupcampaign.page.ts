@@ -42,12 +42,6 @@ export class GroupcampaignPage implements OnInit {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-
-      if (this.authService.isAuth() != null || !this.authService.isTokenExpired()) {
-        this.navController.navigateRoot(['groupcampaign']);
-      } else {
-        this.navController.navigateRoot(['login']);
-      }
     });
   }
 

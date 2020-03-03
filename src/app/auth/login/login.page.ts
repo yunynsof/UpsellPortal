@@ -5,6 +5,8 @@ import { NavController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
 import validator from 'validator';
 
+
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -17,7 +19,7 @@ export class LoginPage implements OnInit {
     private authService: AuthService,
     private alertService: AlertService,
     private navController: NavController
-  ) { }
+  ) {}
 
   @ViewChild('form', { static: false }) form: NgForm;
 
